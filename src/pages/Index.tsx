@@ -14,53 +14,87 @@ const Index = () => {
   const donationTiers = [
     {
       name: "VIP",
-      price: "199₽",
+      price: "150₽",
+      originalPrice: "200₽",
       color: "bg-gradient-to-r from-green-500 to-green-600",
-      features: ["Цветной ник", "Приватные сообщения", "Кит /kit vip"],
+      features: [
+        "Цветной ник в чате",
+        "Доступ к /kit vip",
+        "Приоритет входа на сервер",
+        "Префикс [VIP]",
+      ],
       icon: "Star",
+      discount: "25%",
     },
     {
       name: "Премиум",
-      price: "399₽",
+      price: "300₽",
+      originalPrice: "400₽",
       color: "bg-gradient-to-r from-blue-500 to-blue-600",
-      features: ["Все VIP привилегии", "Флай на 30 минут", "Кит /kit premium"],
+      features: [
+        "Все VIP привилегии",
+        "Флай на 1 час",
+        "Кит /kit premium",
+        "Доступ к /back",
+      ],
       icon: "Crown",
+      discount: "25%",
     },
     {
       name: "Deluxe",
-      price: "699₽",
+      price: "525₽",
+      originalPrice: "700₽",
       color: "bg-gradient-to-r from-purple-500 to-purple-600",
       features: [
         "Все Премиум привилегии",
         "Безлимитный флай",
         "Кит /kit deluxe",
+        "Команда /feed",
       ],
       icon: "Gem",
+      discount: "25%",
     },
     {
       name: "Легенда",
-      price: "999₽",
+      price: "750₽",
+      originalPrice: "1000₽",
       color: "bg-gradient-to-r from-orange-500 to-red-600",
-      features: ["Все Deluxe привилегии", "Особый префикс", "Кит /kit legend"],
+      features: [
+        "Все Deluxe привилегии",
+        "Особый префикс [LEGEND]",
+        "Кит /kit legend",
+        "Команда /heal",
+      ],
       icon: "Sword",
+      discount: "25%",
     },
     {
       name: "Ультра",
-      price: "1499₽",
+      price: "1125₽",
+      originalPrice: "1500₽",
       color: "bg-gradient-to-r from-pink-500 to-purple-600",
-      features: ["Все Легенда привилегии", "Команда /god", "Кит /kit ultra"],
+      features: [
+        "Все Легенда привилегии",
+        "Команда /god",
+        "Кит /kit ultra",
+        "Доступ к /gamemode 1",
+      ],
       icon: "Zap",
+      discount: "25%",
     },
     {
       name: "Спонсор",
-      price: "2499₽",
+      price: "1875₽",
+      originalPrice: "2500₽",
       color: "bg-gradient-to-r from-yellow-400 to-orange-500",
       features: [
         "Все Ультра привилегии",
         "Креативный режим",
         "Кит /kit sponsor",
+        "Особые эффекты",
       ],
       icon: "Trophy",
+      discount: "25%",
     },
   ];
 
@@ -105,9 +139,12 @@ const Index = () => {
               BRAWL SMP
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Лучший Minecraft сервер для PvP и выживания. Присоединяйся к
-              нашему игровому сообществу!
+              Современный взгляд на сервера!
             </p>
+            <div className="text-center mb-8">
+              <p className="text-gray-400 mb-2">IP: brawlsmp.ru</p>
+              <p className="text-gray-400">Версия: 1.16.5 - 1.20.x</p>
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -120,7 +157,7 @@ const Index = () => {
               className="border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white px-8 py-3 text-lg"
             >
               <Icon name="MessageCircle" className="mr-2" />
-              Discord
+              Discord: brawlsmp
             </Button>
           </div>
 
@@ -159,8 +196,13 @@ const Index = () => {
             {donationTiers.map((tier, index) => (
               <Card
                 key={index}
-                className="bg-gray-800/50 border-purple-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20"
+                className="bg-gray-800/50 border-purple-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 relative overflow-hidden"
               >
+                {tier.discount && (
+                  <div className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded-full text-sm font-bold z-10">
+                    -{tier.discount}
+                  </div>
+                )}
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -175,9 +217,16 @@ const Index = () => {
                         <CardTitle className="text-xl text-white">
                           {tier.name}
                         </CardTitle>
-                        <CardDescription className="text-2xl font-bold text-purple-400">
-                          {tier.price}
-                        </CardDescription>
+                        <div className="flex items-center gap-2">
+                          <CardDescription className="text-2xl font-bold text-purple-400">
+                            {tier.price}
+                          </CardDescription>
+                          {tier.originalPrice && (
+                            <span className="text-sm text-gray-500 line-through">
+                              {tier.originalPrice}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -199,9 +248,10 @@ const Index = () => {
                     ))}
                   </ul>
                   <Button
-                    className={`w-full ${tier.color} hover:opacity-90 text-white`}
+                    className={`w-full ${tier.color} hover:opacity-90 text-white relative overflow-hidden`}
                   >
-                    Купить {tier.name}
+                    <span className="relative z-10">Купить {tier.name}</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700"></div>
                   </Button>
                 </CardContent>
               </Card>
@@ -334,10 +384,8 @@ const Index = () => {
               <h3 className="text-xl font-bold mb-4 text-purple-400">
                 BrawlSMP
               </h3>
-              <p className="text-gray-400">
-                Лучший Minecraft сервер для PvP и выживания
-              </p>
-              <p className="text-gray-400 mt-2">IP: play.brawlsmp.ru</p>
+              <p className="text-gray-400">Современный взгляд на сервера!</p>
+              <p className="text-gray-400 mt-2">IP: brawlsmp.ru</p>
             </div>
 
             <div>
@@ -400,6 +448,8 @@ const Index = () => {
 
           <div className="border-t border-purple-500/20 mt-8 pt-8 text-center text-gray-400">
             <p>&copy; 2024 BrawlSMP. Все права защищены.</p>
+            <p className="mt-2 text-sm">Платежная система: EasyDonate</p>
+            <p className="mt-1 text-sm">IP: brawlsmp.ru | Discord: brawlsmp</p>
           </div>
         </div>
       </footer>
